@@ -1,0 +1,80 @@
+import { useState } from "react";
+import { searchPokemon } from "../utils/api";
+
+function SearchForm({ setPokemon, onSearch, onError }) {
+  const [query, setQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (isLoading) return;
+
+    if (!query.trim()) {
+      setErrorMessage("Digite o nome ou número de um Pokémon.");
+      return;
+    }
+
+    setErrorMessage("");
+    setIsLoading(true);
+    onSearch();
+
+    try {
+      const result = await searchPokemon(query.trim());
+      setPokemon([result]);
+    } catch (error) {
+      console.error(error);
+      setPokemon([]);
+      setErrorMessage("Pokémon não encontrado. Tente outro nome ou número.");
+      onError();
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function handleChange(event) {
+    setQuery(event.target.value);
+    setErrorMessage("");
+  }
+
+  return (
+    <>
+      <form className="search-form" onSubmit={handleSubmit}>
+        <label htmlFor="pokemon-search">Nome ou número do Pokémon</label>
+
+        <input
+          id="pokemon-search"
+          type="text"
+          className="search-form__input"
+          placeholder="Ex.: pikachu ou 25"
+          value={query}
+          onChange={handleChange}
+          disabled={isLoading}
+        />
+
+        <button
+          type="submit"
+          className="search-form__button"
+          disabled={isLoading}
+        >
+          {isLoading ? "Pesquisando..." : "Pesquisar"}
+        </button>
+      </form>
+
+      {isLoading && (
+        <p className="search-form__loading" role="status">
+          Carregando Pokémon...
+        </p>
+      )}
+
+      {errorMessage && (
+        <p className="search-form__error" role="alert">
+          {errorMessage}
+        </p>
+      )}
+    </>
+  );
+}
+
+export default SearchForm;
