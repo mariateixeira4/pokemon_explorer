@@ -1,0 +1,131 @@
+.search-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 12px;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto 40px;
+}
+
+.search-form label {
+  grid-column: 1 / -1;
+  color: #444444;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.search-form__input {
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  padding: 14px 16px;
+  border: 2px solid #dddddd;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #222222;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-form__input:focus {
+  border-color: #e3350d;
+  box-shadow: 0 0 0 3px rgba(227, 53, 13, 0.12);
+}
+
+.search-form__button {
+  min-height: 50px;
+  padding: 12px 24px;
+  border: 2px solid #e3350d;
+  border-radius: 8px;
+  background: #e3350d;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.search-form__button:hover:not(:disabled) {
+  background: #bd2b0b;
+  border-color: #bd2b0b;
+  transform: translateY(-1px);
+}
+
+.search-form__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.search-form__error,
+.search-form__loading {
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.search-form__error {
+  color: #bd2b0b;
+}
+
+.search-form__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: #444444;
+}
+
+.search-form__spinner {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 4px solid #e0e0e0;
+  border-top-color: #e3350d;
+  border-radius: 50%;
+  animation: pokemon-spin 0.8s linear infinite;
+}
+
+.search-form__loading p {
+  margin: 0;
+}
+
+@keyframes pokemon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.search-form__button:focus-visible,
+.search-form__input:focus-visible {
+  outline: 3px solid #222222;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 600px) {
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+
+  .search-form label {
+    grid-column: 1;
+  }
+
+  .search-form__button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-form__button {
+    transition-duration: 0.01ms;
+  }
+
+  .search-form__spinner {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}

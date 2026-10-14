@@ -1,0 +1,95 @@
+.header {
+  width: 100%;
+  background: #e3350d;
+  color: #ffffff;
+  border-bottom: 6px solid #222222;
+}
+
+.header__content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.header__logo {
+  margin: 0;
+  color: #ffffff;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 3px 3px 0 #222222;
+}
+
+.header__subtitle {
+  margin: 10px 0 22px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header__nav-button {
+  padding: 11px 20px;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.header__nav-button:hover,
+.header__nav-button--active {
+  background: #ffffff;
+  color: #222222;
+}
+
+.header__nav-button:focus-visible {
+  outline: 3px solid #222222;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 600px) {
+  .header__content {
+    padding: 24px 16px 18px;
+  }
+
+  .header__logo {
+    font-size: 36px;
+  }
+
+  .header__subtitle {
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+
+  .header__nav {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .header__nav-button {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .header__logo {
+    font-size: 31px;
+  }
+}

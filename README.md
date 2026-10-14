@@ -1,16 +1,34 @@
-# React + Vite
+# Pokémon Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descrição
 
-Currently, two official plugins are available:
+Aplicação web desenvolvida com React que permite pesquisar Pokémon, visualizar informações e estatísticas, consultar detalhes e guardar Pokémon favoritos através da PokéAPI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tecnologias utilizadas
 
-## React Compiler
+- React
+- JavaScript
+- JSX
+- CSS
+- Vite
+- REST API
+- PokéAPI
+- LocalStorage
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funcionalidades
 
-## Expanding the ESLint configuration
+- Pesquisa de Pokémon
+- Visualização de cartões com informações dos Pokémon
+- Consulta de detalhes e estatísticas
+- Visualização de tipos, altura, peso e habilidades
+- Adição e remoção de Pokémon favoritos
+- Armazenamento dos favoritos no navegador
+- Janela modal com detalhes dos Pokémon
+- Layout responsivo para desktop, tablet e mobile
+- Tratamento de erros
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Deploy
+
+Aplicação disponível em:
+
+[A adicionar após a publicação do projeto]
