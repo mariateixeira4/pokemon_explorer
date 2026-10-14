@@ -29,6 +29,4 @@ Aplicação web desenvolvida com React que permite pesquisar Pokémon, visualiza
 
 ## Deploy
 
-Aplicação disponível em:
-
-[A adicionar após a publicação do projeto]
+[Ver Pokémon Explorer](https://effortless-panda-93895b.netlify.app/)
