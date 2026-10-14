@@ -1,0 +1,118 @@
+.pokemon-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.pokemon-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+}
+
+.pokemon-card__details {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pokemon-card__details:focus-visible {
+  outline: 3px solid #222222;
+  outline-offset: -3px;
+}
+
+.pokemon-card__image {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  background: #f7f7f7;
+  border-bottom: 3px solid #e3350d;
+}
+
+.pokemon-card__image--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  color: #555555;
+  text-align: center;
+}
+
+.pokemon-card__content {
+  position: relative;
+  padding: 20px;
+  overflow-wrap: anywhere;
+}
+
+.pokemon-card__number {
+  margin: 0 0 4px;
+  color: #777777;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pokemon-card__name {
+  margin: 0 0 12px;
+  color: #222222;
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.pokemon-card__type,
+.pokemon-card__height,
+.pokemon-card__weight {
+  margin: 8px 0;
+  color: #444444;
+  line-height: 1.5;
+}
+
+.pokemon-card__favorite {
+  display: block;
+  margin: 0 20px 16px;
+  padding: 6px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  font-size: 24px;
+  transition: transform 0.2s ease;
+}
+
+.pokemon-card__favorite:hover {
+  transform: scale(1.15);
+}
+
+.pokemon-card__favorite:focus-visible {
+  outline: 3px solid #222222;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 600px) {
+  .pokemon-card__image {
+    height: 190px;
+  }
+
+  .pokemon-card__content {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pokemon-card,
+  .pokemon-card__favorite {
+    transition-duration: 0.01ms;
+  }
+}

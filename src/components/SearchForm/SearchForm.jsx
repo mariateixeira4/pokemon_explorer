@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { searchPokemon } from "../utils/api";
+import { searchPokemon } from "../../utils/api";
+import "./SearchForm.css";
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function SearchForm({ setPokemon, onSearch, onError }) {
   const [query, setQuery] = useState("");
@@ -21,7 +26,11 @@ function SearchForm({ setPokemon, onSearch, onError }) {
     onSearch();
 
     try {
-      const result = await searchPokemon(query.trim());
+      const [result] = await Promise.all([
+        searchPokemon(query.trim()),
+        delay(500),
+      ]);
+
       setPokemon([result]);
     } catch (error) {
       console.error(error);
@@ -63,9 +72,10 @@ function SearchForm({ setPokemon, onSearch, onError }) {
       </form>
 
       {isLoading && (
-        <p className="search-form__loading" role="status">
-          Carregando Pokémon...
-        </p>
+        <div className="search-form__loading" role="status">
+          <span className="search-form__spinner" aria-hidden="true"></span>
+          <p>Carregando Pokémon...</p>
+        </div>
       )}
 
       {errorMessage && (
