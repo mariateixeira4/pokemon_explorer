@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./Header.css";
 
-function Header() {
+function Header({ onGoHome }) {
   return (
     <header className="header">
       <div className="header__content">
@@ -15,6 +15,7 @@ function Header() {
           <NavLink
             to="/"
             end
+            onClick={onGoHome}
             className={({ isActive }) =>
               `header__nav-button ${
                 isActive ? "header__nav-button--active" : ""

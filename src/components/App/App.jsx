@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
@@ -11,6 +11,7 @@ import "./App.css";
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  const isLoadingMoreRef = useRef(false);
 
   const [pokemon, setPokemon] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -22,6 +23,7 @@ function App() {
   const [nextOffset, setNextOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [showingList, setShowingList] = useState(true);
+  const [resetSearchKey, setResetSearchKey] = useState(0);
 
   const [favorites, setFavorites] = useState(() => {
     try {
@@ -36,9 +38,73 @@ function App() {
     localStorage.setItem("pokemon-favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  const handleLoadMore = useCallback(
+    async (reset = false) => {
+      if (isLoadingMoreRef.current || (!hasMore && !reset)) {
+        return;
+      }
+
+      isLoadingMoreRef.current = true;
+      setIsLoadingMore(true);
+      setListError("");
+      setShowingList(true);
+      setHasSearched(false);
+      setHasError(false);
+
+      const offset = reset ? 0 : nextOffset;
+
+      try {
+        const result = await getPokemonList(offset, 3);
+
+        setPokemon((currentPokemon) =>
+          reset ? result.pokemon : [...currentPokemon, ...result.pokemon],
+        );
+
+        setNextOffset(result.nextOffset);
+        setHasMore(result.hasMore);
+      } catch (error) {
+        console.error(error);
+        setListError("Não foi possível carregar os Pokémon. Tenta novamente.");
+      } finally {
+        isLoadingMoreRef.current = false;
+        setIsLoadingMore(false);
+      }
+    },
+    [hasMore, nextOffset],
+  );
+
   useEffect(() => {
-    handleLoadMore(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let isMounted = true;
+
+    async function loadInitialPokemon() {
+      setIsLoadingMore(true);
+      setListError("");
+
+      try {
+        const result = await getPokemonList(0, 3);
+
+        if (!isMounted) return;
+
+        setPokemon(result.pokemon);
+        setNextOffset(result.nextOffset);
+        setHasMore(result.hasMore);
+      } catch (error) {
+        if (!isMounted) return;
+
+        console.error(error);
+        setListError("Não foi possível carregar os Pokémon. Tenta novamente.");
+      } finally {
+        if (isMounted) {
+          setIsLoadingMore(false);
+        }
+      }
+    }
+
+    loadInitialPokemon();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -61,34 +127,6 @@ function App() {
     };
   }, [selectedPokemon]);
 
-  async function handleLoadMore(reset = false) {
-    if (isLoadingMore || (!hasMore && !reset)) return;
-
-    setIsLoadingMore(true);
-    setListError("");
-    setShowingList(true);
-    setHasSearched(false);
-    setHasError(false);
-
-    const offset = reset ? 0 : nextOffset;
-
-    try {
-      const result = await getPokemonList(offset, 3);
-
-      setPokemon((currentPokemon) =>
-        reset ? result.pokemon : [...currentPokemon, ...result.pokemon],
-      );
-
-      setNextOffset(result.nextOffset);
-      setHasMore(result.hasMore);
-    } catch (error) {
-      console.error(error);
-      setListError("Não foi possível carregar os Pokémon. Tenta novamente.");
-    } finally {
-      setIsLoadingMore(false);
-    }
-  }
-
   function handleSearch() {
     setHasSearched(true);
     setHasError(false);
@@ -98,6 +136,21 @@ function App() {
 
   function handleError() {
     setHasError(true);
+  }
+
+  function handleGoHome() {
+    setSelectedPokemon(null);
+    setHasSearched(false);
+    setHasError(false);
+    setShowingList(true);
+    setListError("");
+    setPokemon([]);
+    setNextOffset(0);
+    setHasMore(true);
+    setResetSearchKey((currentKey) => currentKey + 1);
+
+    navigate("/");
+    handleLoadMore(true);
   }
 
   function handleToggleFavorite(selectedPokemon) {
@@ -118,7 +171,7 @@ function App() {
 
   return (
     <div className="page">
-      <Header />
+      <Header onGoHome={handleGoHome} />
 
       <main className="main">
         <Routes>
@@ -132,6 +185,7 @@ function App() {
                 </section>
 
                 <SearchForm
+                  key={resetSearchKey}
                   setPokemon={setPokemon}
                   onSearch={handleSearch}
                   onError={handleError}
@@ -203,7 +257,7 @@ function App() {
                     <button
                       type="button"
                       className="search-form__button"
-                      onClick={() => navigate("/")}
+                      onClick={handleGoHome}
                     >
                       Explorar Pokémon
                     </button>

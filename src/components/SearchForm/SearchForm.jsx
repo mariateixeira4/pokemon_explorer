@@ -6,7 +6,7 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function SearchForm({ setPokemon, onSearch, onError }) {
+function SearchForm({ setPokemon, onSearch, onError, resetKey }) {
   const [query, setQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +49,7 @@ function SearchForm({ setPokemon, onSearch, onError }) {
 
   return (
     <>
-      <form className="search-form" onSubmit={handleSubmit}>
+      <form key={resetKey} className="search-form" onSubmit={handleSubmit}>
         <label htmlFor="pokemon-search">Nome ou número do Pokémon</label>
 
         <input
